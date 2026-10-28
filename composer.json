@@ -1,0 +1,67 @@
+{
+    "name": "ilbronza/media-manager",
+    "description": "Filesystem-backed Laravel media catalogue with stable identities and reconciliation",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Davide Bronzini",
+            "email": "davide@sistema.srl",
+            "homepage": "https://sistema.srl"
+        }
+    ],
+    "homepage": "https://github.com/ilBronza/mediaManager",
+    "keywords": ["laravel", "media", "filesystem", "catalogue"],
+    "support": {
+        "issues": "https://github.com/ilBronza/mediaManager/issues",
+        "source": "https://github.com/ilBronza/mediaManager"
+    },
+    "require": {
+        "php": "^8.2",
+        "ilbronza/crud": "*",
+        "ilbronza/datatables": "*",
+        "ilbronza/uikittemplate": "*",
+        "ilbronza/menu": "*",
+        "illuminate/support": "^11.0|^12.0|^13.0",
+        "illuminate/database": "^11.0|^12.0|^13.0",
+        "illuminate/filesystem": "^11.0|^12.0|^13.0",
+        "illuminate/routing": "^11.0|^12.0|^13.0",
+        "illuminate/console": "^11.0|^12.0|^13.0",
+        "illuminate/http": "^11.0|^12.0|^13.0",
+        "illuminate/validation": "^11.0|^12.0|^13.0",
+        "illuminate/view": "^11.0|^12.0|^13.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0",
+        "phpunit/phpunit": "^11.0",
+        "spatie/laravel-medialibrary": "^11.10"
+    },
+    "suggest": {
+        "ext-xattr": "Persistent filesystem identities on supported Linux filesystems",
+        "spatie/laravel-medialibrary": "Integration with existing media, including IlBronza CRUD media",
+        "ilbronza/filecabinet": "Dossier context for linked media"
+    },
+    "autoload": {
+        "psr-4": {
+            "IlBronza\\MediaManager\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "IlBronza\\MediaManager\\Tests\\": "tests/"
+        },
+        "files": [
+            "tests/runtime.php"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "IlBronza\\MediaManager\\MediaManagerServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    }
+}

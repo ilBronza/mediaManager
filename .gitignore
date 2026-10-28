@@ -1,0 +1,10 @@
+/vendor/
+/composer.lock
+/.phpunit.cache/
+/tests/runtime/
+/tests/.bootstrap.php
+.DS_Store
+/.idea/
+.env
+.env.*
+!.env.example
