@@ -11,7 +11,7 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->string('disk', 100);
             $table->text('path');
-            $table->char('path_hash', 64);
+            $table->char('path_hash', 64)->nullable();
             $table->unique(['disk', 'path_hash']);
             $table->uuid('parent_id')->nullable()->index();
             $table->string('kind', 16);

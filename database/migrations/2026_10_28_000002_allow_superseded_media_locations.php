@@ -9,7 +9,14 @@ return new class extends Migration {
     {
         // Historical/soft-deleted media retain their last path without claiming its
         // unique active slot after File Cabinet writes a replacement there.
-        Schema::table('media_manager_entries', fn (Blueprint $table) => $table->char('path_hash', 64)->nullable()->change());
+        // Fresh installations already have the final schema. Avoid a redundant
+        // column rebuild (SQLite on Laravel 10 otherwise requires Doctrine DBAL).
+        $column = collect(Schema::getColumns('media_manager_entries'))->firstWhere('name', 'path_hash');
+
+        if (!$column['nullable'])
+        {
+            Schema::table('media_manager_entries', fn (Blueprint $table) => $table->char('path_hash', 64)->nullable()->change());
+        }
     }
 
     public function down(): void
