@@ -70,9 +70,18 @@ class MediaManagerServiceProvider extends ServiceProvider
         ]);
         $class = config('media-library.media_model');
         $class::observe(ManagedMediaObserver::class);
-        if ($this->app->bound(\Spatie\MediaLibrary\MediaCollections\Filesystem::class)) throw new \LogicException('A custom Spatie Filesystem binding requires an explicit MediaManager adapter.');
+        // Spatie 10 explicitly binds its default Filesystem; Spatie 11 resolves
+        // it automatically. Both are safe to adapt, but custom implementations are not.
+        $filesystemClass = \Spatie\MediaLibrary\MediaCollections\Filesystem::class;
+        if ($this->app->bound($filesystemClass) && get_class($this->app->make($filesystemClass)) !== $filesystemClass)
+        {
+            throw new \LogicException('A custom Spatie Filesystem binding requires an explicit MediaManager adapter.');
+        }
         $this->app->bind(\Spatie\MediaLibrary\MediaCollections\Filesystem::class, ManagedFilesystem::class);
-        Event::listen(\Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent::class, \IlBronza\MediaManager\Integrations\Spatie\TrackUploadedMedia::class);
+        $uploadEvent = class_exists(\Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent::class)
+            ? \Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent::class
+            : \Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAdded::class;
+        Event::listen($uploadEvent, \IlBronza\MediaManager\Integrations\Spatie\TrackUploadedMedia::class);
         $this->commands([AdoptCommand::class]);
     }
 }

@@ -30,7 +30,7 @@ Il prototipo consente navigazione e gestione indipendente di più disk locali. *
 
 ## Installazione nell'applicazione
 
-PHP 8.2+, Laravel (suite verificata su Laravel 11), database e un disco locale dedicato. L'interfaccia usa i package IlBronza CRUD, Datatables, Menu e UikitTemplate dell'applicazione, con i loro provider e asset già configurati. Il package non modifica i package fratelli né migra automaticamente dati esistenti.
+PHP 8.2+, Laravel 10.37+ (suite del package verificata su Laravel 11 e integrazione Padovanio su Laravel 10.50), database e un disco locale dedicato. L'interfaccia usa i package IlBronza CRUD, Datatables, Menu e UikitTemplate dell'applicazione, con i loro provider e asset già configurati. Il package non modifica i package fratelli né migra automaticamente dati esistenti.
 
 Il package è disponibile su [Packagist](https://packagist.org/packages/ilbronza/media-manager), con il codice sorgente su [GitHub](https://github.com/ilBronza/mediaManager). Nell'applicazione:
 
@@ -249,7 +249,7 @@ I lock coordinano i processi del package. Un processo esterno può ignorarli: pe
 
 ## Spatie e File Cabinet
 
-In `config/media-manager.php` impostare `'spatie' => true` solo quando Spatie Media Library v11 è installato. Il model configurato in `media-library.media_model` può rimanere `IlBronza\CRUD\Models\Media`. Media e catalogo devono usare la stessa connessione al database. L'opzione Spatie `moves_media_on_update` mantiene il suo comportamento per i media non gestiti; per quelli già registrati si conserva la posizione effettiva persistita.
+In `config/media-manager.php` impostare `'spatie' => true` quando Spatie Media Library v10 o v11 è installato. Il bridge riconosce l'evento e il binding standard del filesystem di entrambe le versioni; l'integrazione con Spatie 10.15 è verificata nei test di Padovanio. Il model configurato in `media-library.media_model` può rimanere `IlBronza\CRUD\Models\Media`. Media e catalogo devono usare la stessa connessione al database. L'opzione Spatie `moves_media_on_update` mantiene il suo comportamento per i media non gestiti; per quelli già registrati si conserva la posizione effettiva persistita.
 
 Con `auto_adopt => true`, un listener registra i nuovi file dopo `MediaHasBeenAddedEvent`, quando File Cabinet/Spatie ha già scelto la destinazione e scritto il file. Il listener non decide il percorso e non modifica le impostazioni File Cabinet. Un errore di indicizzazione viene segnalato nei log senza annullare il caricamento: il media rimane adottabile successivamente. Gli inserimenti esistenti possono essere registrati esplicitamente:
 
